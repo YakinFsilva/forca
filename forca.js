@@ -1,4 +1,4 @@
-let randomword = "bicicleta";
+let randomword = "amor";
 let wordsplit = randomword.split("");
 console.log(wordsplit);
 
@@ -8,44 +8,47 @@ const typedletter = "A";
 const letterRight = Array(wordsplit.length).fill("_");
 
 console.log(letterRight);
-
+let encontrada = false;
 function searchLetter(letra) {
   console.log(`letra pressionada: ${letra}`);
-  let encontrada = false;
+  
 
-  for (let index = 0; index < wordsplit.length; index++) {
-    const element = wordsplit[index];
-    if ((element = typedletter)) {
-      typedletter[index] = letterRight;
-      encontrada = true;
-    }
+  if (tentativas < 1) {
+    console.log("Você perdeu!");
+    return;
+  
   }
-  if (encontrada === false) {
-    tentativas--;
-  }
-
-  //1° tentativa
-  console.log(letterRight);
-  searchLetter("I");
-  console.log(`tentativas ${tentativas}`);
-  //2° tentativa
-  console.log(letterRight);
-  searchLetter("n");
-  console.log(`tentativas ${tentativas}`);
-  //3° tentativa
-  console.log(letterRight);
-  searchLetter("a");
-  console.log(`tentativas ${tentativas}`);
-  //4° tentativa
-  console.log(letterRight);
-  searchLetter("b");
-  console.log(`tentativas ${tentativas}`);
-  //5° tentativa
-  console.log(letterRight);
-  searchLetter("k");
-  console.log(`tentativas ${tentativas}`);
-  //6°tentativa
-  console.log(letterRight);
-  searchLetter("l");
-  console.log(`tentativas ${tentativas}`);
+  if (numLetrasEncontradas === randomword);
+  console.log("you win!");
+  return;
+  
 }
+for (let index = 0; index < wordsplit.length; index++){
+  const element = wordsplit[index];
+  if (element === typedletter) {
+    typedletter[index] = letterRight;
+    numLetrasEncontradas++;
+
+    encontrada = true;
+  }
+}
+if (encontrada === false) {
+  tentativas--;
+}
+
+
+
+
+function generateKeyboard() { 
+const keyboardHTMLElement = document.getElementById("keyboard");
+console.log(keyboardHTMLElement)
+
+
+
+for (let index = 65; index << 90; index++) {
+  const character = String.fromCharCode(index);
+  keyboardHTMLElement.innerHTML += `<button onclick="searchLetter('${character}')" type="button" class="btn btn-primary">${character}</button>`;
+  keyboardHTMLElement.innerHTML += button;
+}
+}
+
