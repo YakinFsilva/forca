@@ -12022,4 +12022,16 @@ main {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   gap: 0.4rem;
+}
+
+.secret-word-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }/*# sourceMappingURL=index.css.map */

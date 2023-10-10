@@ -15,20 +15,21 @@ function encontrarLetra(letra) {
   disableButton(letra);
 
   if (numLetrasAcertadas === palavraSplitted.length) {
-    // console.log("Parabéns, você ganhou o jogo!")
+     console.log("Parabéns, você ganhou o jogo!")
     return;
   }
   if (tentativas < 1) {
-    // console.log("Você perdeu o jogo!")
+     console.log("Você perdeu o jogo!")
     return;
   }
 
-  // console.log(`Letra pressionada: ${letra}`)
+   console.log(`Letra pressionada: ${letra}`)
   let encontrada = false;
 
   for (let index = 0; index < palavraSplitted.length; index++) {
     const element = palavraSplitted[index];
     if (element === letra){
+      document.getElementById(`secret-word-${index}`).innerHTML = letra[index];
       letrasReveladas[index] = letra;
       numLetrasAcertadas++;
       
@@ -40,8 +41,8 @@ function encontrarLetra(letra) {
     tentativas--;
   }
   
-  // console.log(`Tentativas: ${tentativas}`)
-  // console.log(letrasReveladas);
+   console.log(`Tentativas: ${tentativas}`)
+   console.log(letrasReveladas);
 }
 
 /**
@@ -57,5 +58,11 @@ function generateKeyboard() {
     mainElement.innerHTML += buttonElement;
   }
 }
+function generateSecretWordHTML() {
+  const secretWordSection = document.querySelector(".secret-word-section-ul");
+  secretWordSection.innerHTML = secretWordSection.innerHTML + '<li></li>'
 
+  for (const key in palavraSplitted)
+  secretWordSection.innerHTML += `<li>${key}</li>`;
+}
 generateKeyboard()
