@@ -1,68 +1,111 @@
-const palavraAleatoria = "amor"
-const palavraSplitted = palavraAleatoria.split("")
-console.log(palavraSplitted);
+const tecnologias = ["java", "react", "node", "python", "php"];
+const palavraSecreta =
+  tecnologias[Math.floor(Math.random() * tecnologias.length)];
+const letrasErradas = [];
+const letrasCorretas = [];
 
-let tentativas = 6
-let numLetrasAcertadas = 0;
-const letrasReveladas = Array(palavraSplitted.length).fill("")
-
-function disableButton(id) {
-  document.getElementById(id).classList.add("disabled");
-}
-
-function encontrarLetra(letra) {
-  console.log(`Letra clicada: ${letra}`)
-  disableButton(letra);
-
-  if (numLetrasAcertadas === palavraSplitted.length) {
-     console.log("Parabéns, você ganhou o jogo!")
-    return;
-  }
-  if (tentativas < 1) {
-     console.log("Você perdeu o jogo!")
-    return;
-  }
-
-   console.log(`Letra pressionada: ${letra}`)
-  let encontrada = false;
-
-  for (let index = 0; index < palavraSplitted.length; index++) {
-    const element = palavraSplitted[index];
-    if (element === letra){
-      document.getElementById(`secret-word-${index}`).innerHTML = letra[index];
-      letrasReveladas[index] = letra;
-      numLetrasAcertadas++;
-      
-      encontrada = true;
-    }
-  }
-  
-  if (encontrada === false) {
-    tentativas--;
-  }
-  
-   console.log(`Tentativas: ${tentativas}`)
-   console.log(letrasReveladas);
-}
-
-/**
- * Generates a virtual keyboard from A-Z in HTML.
- */
+//keyboard
 function generateKeyboard() {
-  const mainElement = document.querySelector(".keyboard");
+  const keyboardContainer = document.querySelector(".keyboard-container");
 
-  for (let index = 65; index < 91; index++) {
-    const letter = String.fromCharCode(index)
-    const buttonElement = `<button id="${letter}" onclick="encontrarLetra('${letter}')" type="button" class="btn btn-primary">${letter}</button>`
+  for (let charCode = 65; charCode < 91; charCode++) {
+    const letter = String.fromCharCode(charCode);
+    const buttonHTML = `<button id="${letter}" onclick="findLetter('${letter}')" type="button" class="btn btn-primary">${letter}</button>`;
 
-    mainElement.innerHTML += buttonElement;
+    keyboardContainer.innerHTML += buttonHTML;
   }
 }
-function generateSecretWordHTML() {
-  const secretWordSection = document.querySelector(".secret-word-section-ul");
-  secretWordSection.innerHTML = secretWordSection.innerHTML + '<li></li>'
-
-  for (const key in palavraSplitted)
-  secretWordSection.innerHTML += `<li>${key}</li>`;
+//disable button
+function disableButton(buttonId) {
+  // Get the button element by its ID and add the "disabled" class
+  document.getElementById(buttonId).classList.add("disabled");
 }
-generateKeyboard()
+
+//keyboard press
+document.addEventListener("keydown", (evento) => {
+  const codigo = evento.keyCode; // 65 - 90 (intervalo)
+  if (isLetra(codigo)) {
+    const letra = evento.key;
+    if (letrasErradas.includes(letra)) {
+      mostrarAvisoLetraRepetida();
+    } else {
+      if (palavraSecreta.includes(letra)) {
+        letrasCorretas.push(letra);
+      } else {
+        letrasErradas.push(letra);
+      }
+    }
+    atualizarJogo();
+  }
+});
+
+function atualizarJogo() {
+  mostrarLetrasErradas();
+  mostrarLetrasCertas();
+  desenharForca();
+  checarJogo();
+}
+
+function mostrarLetrasErradas() {
+  const div = document.querySelector(".letras-erradas-container");
+  div.innerHTML = "<h3>Letras erradas</h3>";
+  letrasErradas.forEach((letra) => {
+    div.innerHTML += `<span>${letra}</span>`;
+  });
+}
+
+function mostrarLetrasCertas() {
+  const container = document.querySelector(".palavra-secreta-container");
+  container.innerHTML = "";
+  palavraSecreta.split("").forEach((letra) => {
+    if (letrasCorretas.includes(letra)) {
+      container.innerHTML += `<span>${letra}</span>`;
+    } else {
+      container.innerHTML += `<span>_</span>`;
+    }
+  });
+}
+
+function checarJogo() {
+  let mensagem = "";
+  const container = document.querySelector(".palavra-secreta-container");
+  const partesCorpo = document.querySelectorAll(".forca-parte");
+
+  if (letrasErradas.length === partesCorpo.length) {
+    mensagem = "Fim de jogo! Você perdeu!";
+  }
+
+  if (palavraSecreta === container.innerText) {
+    mensagem = "Parabéns! Você ganhou!";
+  }
+
+  if (mensagem) {
+    document.querySelector("#mensagem").innerHTML = mensagem;
+    document.querySelector(".popup-container").style.display = "flex";
+  }
+}
+
+function desenharForca() {
+  const partesCorpo = document.querySelectorAll(".forca-parte");
+  for (let i = 0; i < letrasErradas.length; i++) {
+    partesCorpo[i].style.display = "block";
+  }
+}
+
+function mostrarAvisoLetraRepetida() {
+  const aviso = document.querySelector(".aviso-palavra-repetida");
+  aviso.classList.add("show");
+  setTimeout(() => {
+    aviso.classList.remove("show");
+  }, 1000);
+}
+
+function isLetra(codigo) {
+  return codigo >= 65 && codigo <= 90;
+}
+
+function reiniciarJogo() {
+  window.location.reload();
+}
+
+ generateKeyboard();

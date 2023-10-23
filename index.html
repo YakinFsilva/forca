@@ -8,10 +8,13 @@
   <title>Jogo da forca</title>
 </head>
 
+<title>Jogo da Forca</title>
+</head>
 <body>
   <h1>Jogo da forca</h1>
-    <h2>Digite no teclado uma letra e tente adivinhar a palavra!</h2>
+  <h2>Digite no teclado uma letra e tente adivinhar a palavra!</h2>
   <div class="jogo-container">
+    <div class="keyboard-container"></div>
     <div class="forca-container">
       <svg height="250" width="200" class="forca">
         <!-- forca -->
@@ -32,21 +35,30 @@
         <line x1="140" y1="150" x2="160" y2="180" class="forca-parte" />
       </svg>
     </div>
-  <main id="main">
-
-    <div class="keyboard">
-      <section class="secret-word-section">
-        <ul>
-          <li>A</li>
-          <li>M</li>
-          <li>O</li>
-          <li>R</li>
-        </ul>
-      </section>
-
     </div>
-  </main>
+  
 
+    <div class="letras-erradas-container">
+      <h3>Letras erradas</h3>
+    </div>
+  </div>
+
+  <div class="palavra-secreta-container">
+    
+  </div>
+
+  <div class="aviso-palavra-repetida">
+    Você já usou essa letra!
+  </div>
+
+  <div class="popup-container">
+    <div class="popup">
+      <h2 id="mensagem"></h2>
+      <button id="btn-jogar" onclick="reiniciarJogo()">
+        Jogar novamente
+      </button>
+    </div>
+  </div>
   <script src="./index.js"></script>
 </body>
 
